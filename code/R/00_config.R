@@ -40,13 +40,19 @@ variables_guide <- data.frame(index = c(1:4),
   nome_code = c("area_plantada",
                 "area_colhida",
                 "qtd_produzida",
-                "valor_producao")
+                "valor_producao"),
+  unidade_padrao = c(
+    "hectares",
+    "hectares",
+    "toneladas",
+    NA
+  )
 )
 
 
 # calling unit conversion files ####
 
-conversion_units <- readxl("../config/pam_unit_conversions.xlsx")
+conversion_units <- read_excel("../config/pam_unit_conversions.xlsx")
 
 # 1 - Os municípios sem informação para pelo menos um produto da lavoura não aparecem nas listas;	
 # 2 - A partir do ano de 2001 as quantidades produzidas dos produtos abacate, banana, caqui, figo, goiaba, laranja, limão, maçã, mamão, manga, maracujá, marmelo, melancia, melão, pera, pêssego e tangerina passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos, com exceção da banana, que era expressa em mil cachos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha, com exceção da banana, que era expressa em cachos/ha.	
@@ -64,3 +70,5 @@ conversion_units <- readxl("../config/pam_unit_conversions.xlsx")
 # 13 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação."	
 
 
+# line identification names ####
+line_identification <- c("cod_muni", "nom_muni", "uf", "ano")

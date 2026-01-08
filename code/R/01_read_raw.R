@@ -1,7 +1,9 @@
 # This program contains the function to read a file, from a year, for a 
 # for a defined spreadsheet.
 
-read_excel_sheet <- function(year, sheet_name){
+read_excel_sheet <- function(year, sheet_index){
+  
+  sheet_name <- variables_guide$nome_sheet[variables_guide$index == sheet_index]
   
   path_file <- paste0(raw_files_path, "pam_", year, ".xlsx")
   sheets <- excel_sheets(path_file)
@@ -34,6 +36,6 @@ read_excel_sheet <- function(year, sheet_name){
   colnames(pam_file) <- iconv(colnames(pam_file), from = "UTF-8", to = "ASCII//TRANSLIT")
   colnames(pam_file) <- gsub(" |-", "_", colnames(pam_file))
   
-  return(list(data = pam_file, unit = unit, sheet_name = sheet_name, year = year))
+  return(list(data = pam_file, unit = unit, sheet_index = sheet_index, year = year))
 }
 
