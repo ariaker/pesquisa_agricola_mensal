@@ -30,14 +30,15 @@ clean_transform <- function(read_raw_list){
     # select those that need transformation 
     temp_unit_change <- temp_conversion_units[temp_conversion_units$unit_from != temp_conversion_units$unit_to,]
     
-    for(index_prod in 1:nrow(temp_unit_change)){
-      
-      prod <- temp_unit_change$produto[index_prod]
-      
-      dataset[,colnames(dataset) == prod] <- dataset[,colnames(dataset) == prod] * temp_unit_change$factor_to_multiply[index_prod]
-      
-    } # end of loop to fix units
-    
+    if(nrow(temp_unit_change) > 0){
+      for(index_prod in 1:nrow(temp_unit_change)){
+        
+        prod <- temp_unit_change$produto[index_prod]
+        
+        dataset[,colnames(dataset) == prod] <- dataset[,colnames(dataset) == prod] * temp_unit_change$factor_to_multiply[index_prod]
+        
+      } # end of loop to fix units
+    }
     
     # fixing series that break 
     
@@ -55,8 +56,18 @@ clean_transform <- function(read_raw_list){
     
     # fixing series that have alternative unit 
     
+    temp_alt_unit <- temp_conversion_units[temp_conversion_units$series_break == "F" & temp_conversion_units$unidade_padrao != standard_unit,]
     
-    
+    if(nrow(temp_alt_unit) > 0){
+      for(index_prod in 1:nrow(temp_alt_unit)){
+        
+        prod <- temp_alt_unit$produto[index_prod]
+        
+        colnames(dataset)[grepl(prod, colnames(dataset))] <- paste0( colnames(dataset)[grepl(prod, colnames(dataset))], "_", temp_alt_unit$unit_to[index_prod])
+        
+        
+      }
+    } # end alternative unit
     
     
     
