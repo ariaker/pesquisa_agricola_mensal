@@ -16,7 +16,7 @@ clean_transform <- function(read_raw_list){
   dataset[dataset == "-"] <- 0
   
   # making relevant columns numeric ####
-  dataset[,!(colnames(dataset) %in% c("nom_muni", "uf"))] <- apply(dataset[,!(colnames(dataset) %in% c("nom_muni", "uf"))], 2, as.numeric)
+  dataset[,!(colnames(dataset) %in% c("cod_muni", "nom_muni", "uf"))] <- apply(dataset[,!(colnames(dataset) %in% c("cod_muni", "nom_muni", "uf"))], 2, as.numeric)
   
   # fixing production columns, if necessary ####
   if(read_raw_list$sheet_index == 3){ # we enter here if it is qtd produzida
@@ -56,7 +56,7 @@ clean_transform <- function(read_raw_list){
     
     # fixing series that have alternative unit 
     
-    temp_alt_unit <- temp_conversion_units[temp_conversion_units$series_break == "F" & temp_conversion_units$unidade_padrao != standard_unit,]
+    temp_alt_unit <- temp_conversion_units[temp_conversion_units$series_break == "F" & temp_conversion_units$unidade_padrao != variables_guide$unidade_padrao[read_raw_list$sheet_index],]
     
     if(nrow(temp_alt_unit) > 0){
       for(index_prod in 1:nrow(temp_alt_unit)){
@@ -75,5 +75,15 @@ clean_transform <- function(read_raw_list){
   
   
   
+  
+  
+  # adding currency column if it is the value of output ####
+  
+  if(read_raw_list$sheet_index == 4){
+    dataset$unidade <- read_raw_list$unit
+  } else {dataset$unidade <- variables_guide$unidade_padrao[read_raw_list$sheet_index]}
+  
+  # returning the object ####
+  return(dataset)
   
 }

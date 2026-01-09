@@ -1,6 +1,6 @@
 # load packages ####
 library(readxl)
-
+library(plyr)
 
 # raw files directory ####
 raw_files_path <- "../data/raw/pam_all_years/"
@@ -54,11 +54,6 @@ variables_guide <- data.frame(index = c(1:4),
 
 conversion_units <- read_excel("../config/pam_unit_conversions.xlsx")
 
-standard_unit <- "toneladas" #this is the standard unit for production.
-# products that are presented in alternative  units and cannot be directly
-# adjusted will have their alternative unit added to the column name.
-
-
 # PAM notes, according to SIDRA information:
 
 # 1 - Os municípios sem informação para pelo menos um produto da lavoura não aparecem nas listas;	
@@ -79,3 +74,8 @@ standard_unit <- "toneladas" #this is the standard unit for production.
 
 # line identification names ####
 line_identification <- c("cod_muni", "nom_muni", "uf", "ano")
+
+
+
+#
+# read_raw_list <- read_excel_sheet(1989, 4)
